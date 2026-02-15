@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chúc Mừng Năm Mới 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;700&family=Saira+Stencil+One&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background: #8b0000; /* Nền đỏ đậm truyền thống */
+        font-family: "Montserrat", sans-serif;
+        color: #fff;
+      }
+
+      /* Họa tiết nền thiệp */
+      .bg-pattern {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: radial-gradient(
+          circle at 50% 50%,
+          #b22222 0%,
+          #8b0000 100%
+        );
+        z-index: 0;
+      }
+
+      .bg-pattern::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url("https://www.transparenttextures.com/patterns/dark-matter.png"); /* Họa tiết vân giấy */
+        opacity: 0.3;
+      }
+
+      #canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        opacity: 0;
+        transition: opacity 2s ease-in;
+        pointer-events: none;
+      }
+
+      .intro-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 20;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #8b0000;
+        padding: 20px;
+      }
+
+      /* Khung tấm thiệp */
+      .card-frame {
+        position: relative;
+        background: #fffef0; /* Màu giấy cổ */
+        padding: 3rem;
+        border: 15px double #ffd700;
+        box-shadow:
+          0 0 50px rgba(0, 0, 0, 0.5),
+          inset 0 0 20px rgba(139, 0, 0, 0.2);
+        max-width: 800px;
+        width: 90%;
+        min-height: 300px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transform: rotate(-1deg);
+      }
+
+      .card-frame::after {
+        content: "🧧";
+        position: absolute;
+        bottom: -30px;
+        right: -30px;
+        font-size: 4rem;
+        transform: rotate(15deg);
+      }
+
+      .typewriter-text {
+        font-family: "Dancing Script", cursive;
+        font-size: 2.5rem;
+        color: #8b0000;
+        text-align: center;
+        line-height: 1.6;
+      }
+
+      .main-content {
+        position: relative;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        text-align: center;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 2s ease-in;
+      }
+
+      .title {
+        font-family: "Dancing Script", cursive;
+        font-size: 6rem;
+        color: #ffd700;
+        text-shadow:
+          3px 3px 0px #8b0000,
+          0 0 30px rgba(255, 215, 0, 0.5);
+        animation: bounce 2s infinite alternate;
+      }
+
+      @keyframes bounce {
+        from {
+          transform: translateY(0);
+        }
+        to {
+          transform: translateY(-10px);
+        }
+      }
+
+      .wish-banner {
+        background: #cc0000;
+        padding: 1rem 3rem;
+        border: 4px solid #ffd700;
+        border-radius: 5px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        margin-top: 2rem;
+        transform: skew(-5deg);
+      }
+
+      @media (max-width: 768px) {
+        .title {
+          font-size: 3.5rem;
+        }
+        .typewriter-text {
+          font-size: 1.5rem;
+        }
+        .card-frame {
+          padding: 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-pattern"></div>
+
+    <!-- Màn hình dẫn nhập phong cách tấm thiệp -->
+    <div id="intro" class="intro-container">
+      <div class="card-frame">
+        <div id="typewriter" class="typewriter-text"></div>
+      </div>
+    </div>
+
+    <canvas id="canvas"></canvas>
+
+    <!-- Nội dung chính -->
+    <div id="main-ui" class="main-content">
+      <h1 class="title mb-4">Happy New Year 2026</h1>
+      <div
+        class="text-3xl font-bold text-yellow-400 mb-8 tracking-tighter uppercase font-serif"
+        style="text-shadow: 2px 2px #000"
+      >
+        Chúc Mừng Năm Mới - Bính Ngọ
+      </div>
+
+      <div class="wish-banner">
+        <p
+          id="cycle-wish"
+          class="text-2xl text-yellow-300 font-bold uppercase tracking-widest"
+        ></p>
+      </div>
+
+      <div
+        class="mt-16 text-yellow-200/80 font-medium bg-black/30 px-4 py-2 rounded-full backdrop-blur-sm"
+      >
+        🧨-mhuymhuymhuymhuy-🧨
+      </div>
+    </div>
+
+    <script>
+      const introText =
+        "Xuân Bính Ngọ 2026... Chúc bạn một năm mới: Công việc hanh thông, gia đình hạnh phúc, sức khỏe dẻo dai như ngựa chiến, luôn tràn đầy năng lượng và đạt được những đỉnh cao mới trong cuộc sống. Hãy cùng mở ra một năm rực rỡ!";
+      const typewriterElement = document.getElementById("typewriter");
+      const introContainer = document.getElementById("intro");
+      const mainUi = document.getElementById("main-ui");
+      const canvasElement = document.getElementById("canvas");
+
+      let charIndex = 0;
+
+      function typeWriter() {
+        if (charIndex < introText.length) {
+          typewriterElement.innerHTML += introText.charAt(charIndex);
+          charIndex++;
+          setTimeout(typeWriter, 60);
+        } else {
+          setTimeout(startShow, 2500);
+        }
+      }
+
+      function startShow() {
+        introContainer.style.transition = "all 2s ease-out";
+        introContainer.style.transform = "scale(1.5)";
+        introContainer.style.opacity = "0";
+
+        setTimeout(() => {
+          introContainer.style.display = "none";
+          mainUi.style.opacity = "1";
+          canvasElement.style.opacity = "1";
+          isFired = true;
+          startCyclingWishes();
+        }, 2000);
+      }
+
+      const cycleWishes = [
+        "Vạn Sự Như Ý",
+        "Mã Đáo Thành Công",
+        "An Khang Thịnh Vượng",
+        "Phát Tài Phát Lộc",
+        "Tấn Tài Tấn Lộc",
+      ];
+      let wishIndex = 0;
+      function startCyclingWishes() {
+        const el = document.getElementById("cycle-wish");
+        el.innerText = cycleWishes[wishIndex];
+        setInterval(() => {
+          wishIndex = (wishIndex + 1) % cycleWishes.length;
+          el.style.opacity = 0;
+          setTimeout(() => {
+            el.innerText = cycleWishes[wishIndex];
+            el.style.opacity = 1;
+          }, 500);
+        }, 3000);
+      }
+
+      // --- Logic Pháo Hoa ---
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+      let isFired = false;
+
+      function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      window.addEventListener("resize", resize);
+      resize();
+
+      class Particle {
+        constructor(x, y, color, velocityX, velocityY) {
+          this.x = x;
+          this.y = y;
+          this.color = color;
+          this.velocityX = velocityX;
+          this.velocityY = velocityY;
+          this.alpha = 1;
+          this.friction = 0.96;
+          this.gravity = 0.15;
+        }
+        draw() {
+          ctx.save();
+          ctx.globalAlpha = this.alpha;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, Math.random() * 3 + 1, 0, Math.PI * 2);
+          ctx.fillStyle = this.color;
+          ctx.shadowBlur = 10;
+          ctx.shadowColor = this.color;
+          ctx.fill();
+          ctx.restore();
+        }
+        update() {
+          this.velocityX *= this.friction;
+          this.velocityY *= this.friction;
+          this.velocityY += this.gravity;
+          this.x += this.velocityX;
+          this.y += this.velocityY;
+          this.alpha -= 0.01;
+        }
+      }
+
+      let particles = [];
+      const colors = ["#ffd700", "#ff0000", "#ffffff", "#ff69b4", "#ffa500"];
+
+      function createFirework(x, y) {
+        const particleCount = 150;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        for (let i = 0; i < particleCount; i++) {
+          const angle = ((Math.PI * 2) / particleCount) * i;
+          const speed = Math.random() * 12 + 3;
+          particles.push(
+            new Particle(
+              x,
+              y,
+              color,
+              Math.cos(angle) * speed,
+              Math.sin(angle) * speed,
+            ),
+          );
+        }
+      }
+
+      function animate() {
+        ctx.fillStyle = "rgba(139, 0, 0, 0.2)"; // Màu đỏ mờ dần khi pháo hoa tan
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        if (isFired) {
+          particles.forEach((p, index) => {
+            if (p.alpha > 0) {
+              p.update();
+              p.draw();
+            } else {
+              particles.splice(index, 1);
+            }
+          });
+
+          if (Math.random() < 0.06) {
+            createFirework(
+              Math.random() * canvas.width,
+              Math.random() * canvas.height * 0.7,
+            );
+          }
+        }
+        requestAnimationFrame(animate);
+      }
+
+      window.addEventListener("mousedown", (e) => {
+        if (isFired) createFirework(e.clientX, e.clientY);
+      });
+
+      window.onload = () => {
+        typeWriter();
+        animate();
+      };
+    </script>
+  </body>
+</html>
