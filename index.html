@@ -65,6 +65,7 @@
         height: 100%;
         z-index: 20;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         background: #8b0000;
@@ -88,6 +89,7 @@
         justify-content: center;
         align-items: center;
         transform: rotate(-1deg);
+        display: none; /* Hiện sau khi bấm bắt đầu */
       }
 
       .card-frame::after {
@@ -150,6 +152,24 @@
         transform: skew(-5deg);
       }
 
+      .btn-start {
+        background: #ffd700;
+        color: #8b0000;
+        padding: 1.5rem 3rem;
+        font-size: 2rem;
+        font-family: "Dancing Script", cursive;
+        font-weight: bold;
+        border-radius: 50px;
+        cursor: pointer;
+        box-shadow: 0 0 30px #ffd700;
+        transition: transform 0.3s;
+        z-index: 30;
+      }
+
+      .btn-start:hover {
+        transform: scale(1.1);
+      }
+
       @media (max-width: 768px) {
         .title {
           font-size: 3.5rem;
@@ -160,6 +180,10 @@
         .card-frame {
           padding: 1.5rem;
         }
+        .btn-start {
+          font-size: 1.5rem;
+          padding: 1rem 2rem;
+        }
       }
     </style>
   </head>
@@ -168,7 +192,8 @@
 
     <!-- Màn hình dẫn nhập phong cách tấm thiệp -->
     <div id="intro" class="intro-container">
-      <div class="card-frame">
+      <button id="start-btn" class="btn-start">Lời Chúc của mhuy 🧧</button>
+      <div id="card" class="card-frame">
         <div id="typewriter" class="typewriter-text"></div>
       </div>
     </div>
@@ -195,19 +220,35 @@
       <div
         class="mt-16 text-yellow-200/80 font-medium bg-black/30 px-4 py-2 rounded-full backdrop-blur-sm"
       >
-        🧨-mhuymhuymhuymhuy-🧨
+        🧨 Nhấp chuột để khai hỏa pháo hoa! 🧨
       </div>
     </div>
+
+    <!-- Nhạc nền MP3 Tết sôi động -->
+    <audio id="bg-music" loop>
+      <source src="./Tết Bình An (Đại Mèo Remix).mp3" type="audio/mpeg" />
+    </audio>
 
     <script>
       const introText =
         "Xuân Bính Ngọ 2026... Chúc bạn một năm mới: Công việc hanh thông, gia đình hạnh phúc, sức khỏe dẻo dai như ngựa chiến, luôn tràn đầy năng lượng và đạt được những đỉnh cao mới trong cuộc sống. Hãy cùng mở ra một năm rực rỡ!";
       const typewriterElement = document.getElementById("typewriter");
       const introContainer = document.getElementById("intro");
+      const cardElement = document.getElementById("card");
+      const startBtn = document.getElementById("start-btn");
       const mainUi = document.getElementById("main-ui");
       const canvasElement = document.getElementById("canvas");
+      const bgMusic = document.getElementById("bg-music");
 
       let charIndex = 0;
+
+      startBtn.onclick = () => {
+        // Phát nhạc ngay khi nhấn nút để tránh rào cản trình duyệt
+        bgMusic.play().catch((e) => console.log("Audio play failed", e));
+        startBtn.style.display = "none";
+        cardElement.style.display = "flex";
+        typeWriter();
+      };
 
       function typeWriter() {
         if (charIndex < introText.length) {
@@ -215,7 +256,9 @@
           charIndex++;
           setTimeout(typeWriter, 60);
         } else {
-          setTimeout(startShow, 2500);
+          setTimeout(() => {
+            startShow();
+          }, 1000);
         }
       }
 
@@ -320,7 +363,7 @@
       }
 
       function animate() {
-        ctx.fillStyle = "rgba(139, 0, 0, 0.2)"; // Màu đỏ mờ dần khi pháo hoa tan
+        ctx.fillStyle = "rgba(139, 0, 0, 0.2)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         if (isFired) {
@@ -348,7 +391,6 @@
       });
 
       window.onload = () => {
-        typeWriter();
         animate();
       };
     </script>
